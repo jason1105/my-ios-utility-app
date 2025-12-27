@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<IDEWorkspaceChecks
+   version = "1.0">
+   <CheckItem
+      displayName = "Shared Scheme Creation"
+      title = "Shared Scheme Creation"
+      description = "Automatically create schemes for targets that are not already covered by an existing shared scheme">
+   </CheckItem>
+</IDEWorkspaceChecks>
