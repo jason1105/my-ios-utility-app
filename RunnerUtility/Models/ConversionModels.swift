@@ -78,6 +78,22 @@ struct SpeedConverter {
         guard mph > 0 else { return nil }
         return 60.0 / mph
     }
+    
+    /// Convert speed (km/h) to pace (min/km)
+    /// - Parameter kmh: Speed in kilometers per hour
+    /// - Returns: Pace in minutes per kilometer, or nil if input is zero
+    static func kmhToPacePerKm(_ kmh: Double) -> Double? {
+        guard kmh > 0 else { return nil }
+        return 60.0 / kmh
+    }
+    
+    /// Convert pace (min/km) to speed (km/h)
+    /// - Parameter minPerKm: Pace in minutes per kilometer
+    /// - Returns: Speed in kilometers per hour, or nil if input is zero
+    static func pacePerKmToKmh(minPerKm: Double) -> Double? {
+        guard minPerKm > 0 else { return nil }
+        return 60.0 / minPerKm
+    }
 }
 
 // MARK: - Pace Conversions
@@ -108,17 +124,63 @@ struct PaceConverter {
     }
     
     /// Parse a pace string like "8:30" into decimal minutes
-    /// - Parameter paceString: String in format "MM:SS"
+    /// - Parameter paceString: String in format "MM:SS" or "M:SS"
     /// - Returns: Total minutes as decimal, or nil if invalid format
     static func parsePace(_ paceString: String) -> Double? {
-        let components = paceString.split(separator: ":")
-        guard components.count == 2,
-              let mins = Int(components[0]),
-              let secs = Int(components[1]),
-              secs < 60 else {
-            return nil
+        let trimmed = paceString.trimmingCharacters(in: .whitespaces)
+        guard !trimmed.isEmpty else { return nil }
+        
+        let components = trimmed.split(separator: ":")
+        
+        // Handle MM:SS format
+        if components.count == 2 {
+            guard let mins = Int(components[0]),
+                  let secs = Int(components[1]),
+                  mins >= 0,
+                  secs >= 0,
+                  secs < 60 else {
+                return nil
+            }
+            return Double(mins) + (Double(secs) / 60.0)
         }
-        return Double(mins) + (Double(secs) / 60.0)
+        
+        // Handle plain number (decimal format)
+        if let decimalValue = Double(trimmed), decimalValue >= 0 {
+            return decimalValue
+        }
+        
+        return nil
+    }
+    
+    /// Validate if a pace string is in proper MM:SS format
+    /// - Parameter paceString: String to validate
+    /// - Returns: True if valid format
+    static func isValidPaceFormat(_ paceString: String) -> Bool {
+        let trimmed = paceString.trimmingCharacters(in: .whitespaces)
+        
+        // Empty is valid (allows clearing the field)
+        if trimmed.isEmpty { return true }
+        
+        let components = trimmed.split(separator: ":")
+        
+        // Check MM:SS format
+        if components.count == 2 {
+            guard let mins = Int(components[0]),
+                  let secs = Int(components[1]),
+                  mins >= 0,
+                  secs >= 0,
+                  secs < 60 else {
+                return false
+            }
+            return true
+        }
+        
+        // Also allow plain decimal input
+        if Double(trimmed) != nil {
+            return true
+        }
+        
+        return false
     }
 }
 
