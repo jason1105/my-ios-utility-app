@@ -70,10 +70,7 @@ struct UnifiedSpeedPaceConversionView: View {
                                     .textFieldStyle(RoundedBorderTextFieldStyle())
                                     .keyboardType(.decimalPad)
                                     .onChange(of: mphInput) { newValue in
-                                        if activeField != .mph && !newValue.isEmpty {
-                                            activeField = .mph
-                                        }
-                                        if activeField == .mph {
+                                        handleFieldChange(field: .mph, value: newValue) {
                                             convertFromMph(newValue)
                                         }
                                     }
@@ -96,10 +93,7 @@ struct UnifiedSpeedPaceConversionView: View {
                                     .textFieldStyle(RoundedBorderTextFieldStyle())
                                     .keyboardType(.decimalPad)
                                     .onChange(of: kmhInput) { newValue in
-                                        if activeField != .kmh && !newValue.isEmpty {
-                                            activeField = .kmh
-                                        }
-                                        if activeField == .kmh {
+                                        handleFieldChange(field: .kmh, value: newValue) {
                                             convertFromKmh(newValue)
                                         }
                                     }
@@ -127,10 +121,7 @@ struct UnifiedSpeedPaceConversionView: View {
                                     .textFieldStyle(RoundedBorderTextFieldStyle())
                                     .keyboardType(.numbersAndPunctuation)
                                     .onChange(of: minPerMileInput) { newValue in
-                                        if activeField != .minPerMile && !newValue.isEmpty {
-                                            activeField = .minPerMile
-                                        }
-                                        if activeField == .minPerMile {
+                                        handleFieldChange(field: .minPerMile, value: newValue) {
                                             convertFromMinPerMile(newValue)
                                         }
                                     }
@@ -157,10 +148,7 @@ struct UnifiedSpeedPaceConversionView: View {
                                     .textFieldStyle(RoundedBorderTextFieldStyle())
                                     .keyboardType(.numbersAndPunctuation)
                                     .onChange(of: minPerKmInput) { newValue in
-                                        if activeField != .minPerKm && !newValue.isEmpty {
-                                            activeField = .minPerKm
-                                        }
-                                        if activeField == .minPerKm {
+                                        handleFieldChange(field: .minPerKm, value: newValue) {
                                             convertFromMinPerKm(newValue)
                                         }
                                     }
@@ -337,6 +325,23 @@ struct UnifiedSpeedPaceConversionView: View {
             }
         }
         .padding(.vertical, 6)
+    }
+    
+    
+    // MARK: - Helper Functions
+    
+    /// Handle field change with unified logic to prevent duplication
+    /// - Parameters:
+    ///   - field: The field that was changed
+    ///   - value: The new value of the field
+    ///   - convert: Closure to perform the conversion
+    private func handleFieldChange(field: ActiveField, value: String, convert: () -> Void) {
+        if activeField != field && !value.isEmpty {
+            activeField = field
+        }
+        if activeField == field {
+            convert()
+        }
     }
     
     // MARK: - Conversion Functions
