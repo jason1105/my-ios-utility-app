@@ -172,14 +172,14 @@ struct DistanceConversionView: View {
                         HStack {
                             Text("Half Marathon:")
                             Spacer()
-                            Text("13.11 miles / 21.1 km")
+                            Text("13.1 miles / 21.1 km")
                                 .foregroundColor(.secondary)
                         }
                         
                         HStack {
                             Text("Marathon:")
                             Spacer()
-                            Text("26.22 miles / 42.2 km")
+                            Text("26.2 miles / 42.2 km")
                                 .foregroundColor(.secondary)
                         }
                     }
