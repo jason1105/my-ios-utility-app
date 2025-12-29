@@ -20,16 +20,10 @@ struct ContentView: View {
                     Label("Distance", systemImage: "ruler")
                 }
             
-            // Second Tab: Speed Conversions
-            SpeedConversionView()
+            // Second Tab: Unified Speed & Pace Conversions
+            UnifiedSpeedPaceConversionView()
                 .tabItem {
-                    Label("Speed", systemImage: "speedometer")
-                }
-            
-            // Third Tab: Pace Conversions
-            PaceConversionView()
-                .tabItem {
-                    Label("Pace", systemImage: "timer")
+                    Label("Speed & Pace", systemImage: "gauge.with.dots.needle.67percent")
                 }
         }
         // Accent color for selected tab
@@ -50,6 +44,7 @@ struct ContentView: View {
 // - Label: Combines text and an icon
 // - systemImage: Uses SF Symbols (Apple's icon library)
 // - #Preview: Shows the view in Xcode's canvas for quick visualization
+// - We now have two tabs: Distance conversions and unified Speed & Pace conversions
 //
 // HOW TO MODIFY:
 // - To add a new tab, copy one of the tab sections and paste it before the closing }

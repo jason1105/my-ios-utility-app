@@ -14,22 +14,32 @@ A beginner-friendly iOS utility app for marathon runners built with SwiftUI. Thi
 - **Meters ↔ Feet**: Useful for elevation and track measurements
 - **Quick Reference**: Pre-calculated common race distances (5K, 10K, Half Marathon, Marathon)
 
-### Speed Conversions
-- **mph ↔ km/h**: Convert between miles per hour and kilometers per hour
-- **Pace ↔ Speed**: Convert running pace to speed and vice versa
-- **Quick Reference**: Common running speeds with descriptions
+### Unified Speed & Pace Conversions
+All speed and pace units in one unified view! Edit any field and watch all others update automatically:
+- **mph** (miles per hour) - Speed in imperial units
+- **km/h** (kilometers per hour) - Speed in metric units
+- **min/mile** (minutes per mile) - Running pace in imperial units
+- **min/km** (minutes per kilometer) - Running pace in metric units
 
-### Pace Conversions
-- **min/mile ↔ min/km**: Convert your running pace between measurement systems
-- **Marathon Pace Chart**: See predicted finish times for 5K, 10K, and Half Marathon
-- **Training Zones**: Reference guide for different training intensities
+**Understanding Speed vs Pace:**
+- **Speed** (🚀) tells you how fast you're moving (mph or km/h)
+- **Pace** (🏃‍♂️) tells you how long it takes to cover a distance (min/mile or min/km)
+- Example: Running at **6 mph** is the same as a **10:00 min/mile** pace
+- The relationship: Speed = 60 ÷ Pace (when using matching units)
+
+**Key Features:**
+- ⚡ **Real-time bidirectional conversion** - Edit any field, all others update instantly
+- 🔄 **MM:SS format for pace** - More intuitive format (e.g., 8:30 instead of 8.5)
+- 📊 **Visual feedback** - Colored border shows which field you're editing
+- 📚 **Quick Reference** - Common running speeds and paces for all units
+- 💡 **Educational** - Understand how speed and pace relate to each other
 
 ### User Experience
-- 🔄 **Swap buttons** for quick reversal of conversions
 - ⚡ **Real-time conversion** as you type
 - 📊 **Visual organization** with color-coded sections
 - 🎯 **Clean, modern interface** using SwiftUI
 - 📱 **Tab-based navigation** for easy access to different tools
+- 🏃‍♂️ **Runner-friendly pace format** (MM:SS) for easier understanding
 
 ## 🚀 Getting Started
 
@@ -117,8 +127,7 @@ RunnerUtility/
 │   │   └── ConversionModels.swift     # All conversion calculations
 │   ├── Views/                         # UI screens
 │   │   ├── DistanceConversionView.swift
-│   │   ├── SpeedConversionView.swift
-│   │   └── PaceConversionView.swift
+│   │   └── UnifiedSpeedPaceConversionView.swift
 │   ├── Assets.xcassets/               # Images, colors, icons
 │   │   └── AppIcon.appiconset/        # App icon placeholder
 │   └── Preview Content/               # Assets for Xcode previews
@@ -133,7 +142,7 @@ RunnerUtility/
 - Sets up the initial view (ContentView)
 
 **ContentView.swift**
-- Main screen with three tabs
+- Main screen with two tabs
 - Uses `TabView` to organize different conversion tools
 - Simple and easy to modify
 
@@ -141,11 +150,71 @@ RunnerUtility/
 - Contains all the math for conversions
 - Organized into three structs: `DistanceConverter`, `SpeedConverter`, `PaceConverter`
 - Static functions mean you can call them without creating an instance
+- Includes MM:SS pace formatting and parsing functions
+- Handles conversions between all speed and pace units
 
 **View Files** (in Views folder)
-- Each handles one type of conversion
-- Uses `@State` to manage input values
-- Real-time conversion using `.onChange` modifiers
+- **DistanceConversionView.swift**: Handles distance conversions (miles, kilometers, meters, feet)
+- **UnifiedSpeedPaceConversionView.swift**: NEW! Unified view showing all speed and pace units together
+  - Real-time bidirectional conversion between mph, km/h, min/mile, and min/km
+  - Edit any field and all others update automatically
+  - Uses MM:SS format for pace fields
+  - Includes helpful reference tables and educational content
+
+## 🏃‍♂️ Understanding Speed and Pace
+
+One of the key features of this app is helping runners understand the relationship between **speed** and **pace**.
+
+### What's the Difference?
+
+**Speed (🚀)** measures how fast you're moving:
+- Expressed as **mph** (miles per hour) or **km/h** (kilometers per hour)
+- Example: "I'm running at 6 mph"
+- Common in the USA for treadmill displays
+
+**Pace (🏃‍♂️)** measures how long it takes to cover a distance:
+- Expressed as **min/mile** (minutes per mile) or **min/km** (minutes per kilometer)
+- Example: "I'm running at an 8:30 min/mile pace" (8 minutes 30 seconds per mile)
+- Common in running communities worldwide
+
+### The Mathematical Relationship
+
+Speed and pace are **inversely related**. The formula is:
+```
+Speed (mph) = 60 ÷ Pace (min/mile)
+Pace (min/mile) = 60 ÷ Speed (mph)
+```
+
+### Real-World Examples
+
+Here are some common running speeds and their equivalent paces:
+
+| Speed (mph) | Speed (km/h) | Pace (min/mile) | Pace (min/km) | Description |
+|------------|-------------|----------------|--------------|-------------|
+| 5.0 mph | 8.0 km/h | 12:00 | 7:27 | Easy jog, comfortable conversation |
+| 6.0 mph | 9.7 km/h | 10:00 | 6:13 | Comfortable pace, can still talk |
+| 6.7 mph | 10.7 km/h | 9:00 | 5:35 | Moderate pace, working but sustainable |
+| 7.5 mph | 12.1 km/h | 8:00 | 4:58 | Good pace, aerobic workout |
+| 8.6 mph | 13.8 km/h | 7:00 | 4:21 | Fast pace, challenging |
+| 10.0 mph | 16.1 km/h | 6:00 | 3:44 | Race pace for many runners |
+
+### Why This Matters
+
+Understanding both speed and pace helps you:
+- **Set treadmill speed** based on your outdoor pace
+- **Compare performances** across different measurement systems
+- **Plan training runs** using either format
+- **Track improvements** in a way that makes sense to you
+- **Communicate with other runners** regardless of their preferred units
+
+### Using the Unified Converter
+
+The new unified Speed & Pace converter makes this relationship crystal clear:
+1. Enter your speed or pace in **any** of the four units
+2. Watch as all other units update automatically in real-time
+3. See the relationship between speed and pace instantly
+4. Use the MM:SS format for pace (more intuitive than decimal)
+5. Reference common values in the quick reference table
 
 ## 🎨 How to Modify the App
 
